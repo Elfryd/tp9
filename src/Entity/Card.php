@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Card
 {
     /**
+     * @var int
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -18,11 +19,13 @@ class Card
     private $id;
 
     /**
+     * @var string
      * @ORM\Column(type="string", unique=true)
      */
     private $name;
 
     /**
+     * @var string boolean
      * @ORM\Column(type="boolean")
      */
     private $visible = false;
