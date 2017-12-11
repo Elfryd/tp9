@@ -10,11 +10,12 @@ namespace App\Subscriber;
 
 
 use App\AppEvent;
-use App\Event\userCardEvent;
+use App\Event\UserCardEvent;
+use App\Entity\UserCard;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class userCardSubscriber implements EventSubscriberInterface
+class UserCardSubscriber implements EventSubscriberInterface
 {
     /**
      * @var EntityManager
@@ -41,17 +42,18 @@ class userCardSubscriber implements EventSubscriberInterface
         // TODO: Implement getSubscribedEvents() method.
     }
 
-    public function userCardAdd(userCardEvent $userCardEvent)
+    public function userCardAdd(UserCardEvent $userCardEvent)
+    {
+        $userCard = $userCardEvent->getUserCard();
+        $userCard->setUser();
+    }
+
+    public function userCardEdit(UserCardEvent $userCardEvent)
     {
 
     }
 
-    public function userCardEdit(userCardEvent $userCardEvent)
-    {
-
-    }
-
-    public function userCardDelete(userCardEvent $userCardEvent)
+    public function userCardDelete(UserCardEvent $userCardEvent)
     {
 
     }

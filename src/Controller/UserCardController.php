@@ -18,63 +18,47 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserCardController extends Controller
 {
-    /**
-     * @return Response
-     * @Route("/user/new", name="app_user_new")
-     */
     public function new_(Request $request) { //persist
-        $user = $this->get(\App\Entity\UserCard::class);
-        $form = $this->createForm(UserCardType::class, $user);
+        $userCard = $this->get(\App\Entity\UserCard::class);
+        $form = $this->createForm(UserCardType::class, $userCard);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
-            $userEvent = $this->get('app.userCard.event');
-            $userEvent->setPlayer($user);
+            $userCardEvent = $this->get('app.userCard.event');
+            $userCardEvent->setUserCard($userCard);
             $dispatcher = $this->get('event_dispatcher');
-            $dispatcher->dispatch(AppEvent::PLAYER_ADD, $userEvent);
-            return $this->redirectToRoute('app_user_index');
+            $dispatcher->dispatch(AppEvent::USER_CARD_ADD, $userCardEvent);
+            return $this->redirectToRoute('app_userCard_index');
         }
-        return $this->render('user/user_new.html.twig',array('form' => $form->createView()));
+        return $this->render('userCard/userCard_new.html.twig',array('form' => $form->createView()));
     }
 
-    /**
-     * @return Response
-     * @Route("/user/edit/{id}", name="app_user_edit")
-     */
     public function edit($id, Request $request) {
-        $user = $this->getDoctrine()->getManager()->getRepository(\App\Entity\UserCard::class)->find($id);
-        $form = $this->createForm(UserCardType::class, $user);
+        $userCard = $this->getDoctrine()->getManager()->getRepository(\App\Entity\UserCard::class)->find($id);
+        $form = $this->createForm(UserCardType::class, $userCard);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
-            $userEvent = $this->get('app.user.event');
-            $userEvent->setPlayer($user);
+            $userCardEvent = $this->get('app.userCard.event');
+            $userCardEvent->setPlayer($userCard);
             $dispatcher = $this->get('event_dispatcher');
-            $dispatcher->dispatch(AppEvent::USER_CARD_EDIT, $userEvent);
-            return $this->redirectToRoute('app_user_index');
+            $dispatcher->dispatch(AppEvent::USER_CARD_EDIT, $userCardEvent);
+            return $this->redirectToRoute('app_userCard_index');
         }
-        return $this->render('user/user_edit.html.twig',array('form' => $form->createView()));
+        return $this->render('userCard/userCard_edit.html.twig',array('form' => $form->createView()));
     }
 
-    /**
-     * @return Response
-     * @Route("/user/index", name="app_user_index")
-     */
     public function index() { //list
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository(Player::class);
         $tabPlayers = $repo->findAll();
-        return $this->render('user/user_index.html.twig',array('tabPlayers' => $tabPlayers));
+        return $this->render('userCard/userCard_index.html.twig',array('tabPlayers' => $tabPlayers));
     }
 
-    /**
-     * @return Response
-     * @Route("/user/show/{id}", name="app_user_show")
-     */
     public function show($id) {
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository(Player::class);
-        $user = $repo->find($id);
-        return $this->render('user/user_show.html.twig',array('user' => $user));
+        $userCard = $repo->find($id);
+        return $this->render('userCard/userCard_show.html.twig',array('userCard' => $userCard));
     }
 }

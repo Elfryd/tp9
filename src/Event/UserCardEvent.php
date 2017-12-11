@@ -11,7 +11,7 @@ namespace App\Event;
 
 use App\Entity\UserCard;
 
-class userCardEvent
+class UserCardEvent
 {
     /**
      * @var UserCard
