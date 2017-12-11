@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <h2>My Deck</h2>
+    <table>
+        <tr>
+            <th>id</th>
+            <th>action Point</th>
+            <th>attack</th>
+            <th>defence</th>
+            <th>edit</th>
+        </tr>
+        {% for UserCard in UserCards %}
+            <tr>
+                <td>{{ UserCard.id }}</td>
+                <td>{{ UserCard.actionPoint }}</td>
+                <td>{{ UserCard.attack }}</td>
+                <td>{{ UserCard.defence }}</td>
+                <td><a href={{ path('UserCard_edit',{'id' : UserCard.id}) }}><button>edit</button></a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

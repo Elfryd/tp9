@@ -28,9 +28,13 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
     App\Subscriber\UserCardSubscriber:
-        arguments: ['@doctrine.orm.entity_manager']
+        #arguments: ['@doctrine.orm.entity_manager']
         autowire: true
+        public: true
     App\Entity\UserCard:
+        public: true
+    App\Form\UserCardType:
+        autowire: true
         public: true
     app.userCard.event:
         public: true

@@ -9,15 +9,28 @@
 namespace App\Form;
 
 
-use Doctrine\DBAL\Types\IntegerType;
+
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class UserCardType extends AbstractType
 {
+    private $user;
+
+    /**
+     * UserCardType constructor.
+     * @param TokenStorage $token
+     */
+    public function __construct(TokenStorage $token)
+    {
+        $this->user = $token->getToken()->getUser();
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -29,6 +42,8 @@ class UserCardType extends AbstractType
     }
 
     public function preSetData(FormEvent $event) {
+        $cardUser = $event->getData();
+        $cardUser->setUser($this->user);
         $form = $event->getForm();
         $form->add('save', SubmitType::class, array('label' => 'Créer'));
     }

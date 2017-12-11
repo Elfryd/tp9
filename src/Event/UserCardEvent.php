@@ -10,13 +10,15 @@ namespace App\Event;
 
 
 use App\Entity\UserCard;
+use Symfony\Component\EventDispatcher\Event;
 
-class UserCardEvent
+class UserCardEvent extends Event
 {
     /**
      * @var UserCard
      */
     private $userCard;
+    private $card;
 
     /**
      * @return UserCard
@@ -33,4 +35,21 @@ class UserCardEvent
     {
         $this->userCard = $userCard;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCard()
+    {
+        return $this->card;
+    }
+
+    /**
+     * @param mixed $card
+     */
+    public function setCard($card)
+    {
+        $this->card = $card;
+    }
+
 }
